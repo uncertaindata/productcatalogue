@@ -1,4 +1,97 @@
 # Product Hierarchy Classifier
+## Updates
+
+---
+
+# Product Hierarchy Processor
+
+A Python tool to process product data and generate hierarchical product groups and variants with configurable granularity.
+
+---
+
+## Features
+
+* Group products by **coarse, fine, or superfine** levels.
+* Extract variant-level details including **color, RAM, storage, screen size, silicon**.
+* Outputs include:
+
+  * `group_id` → product family/group
+  * `variant_id` → detailed configuration
+  * `confidence` → matching confidence
+  * `evidence` → features used for matching
+
+---
+
+## Granularity Levels
+
+| Level         | Description                                                  | Example                 |
+| ------------- | ------------------------------------------------------------ | ----------------------- |
+| **Superfine** | Most detailed; includes full model + generation/year         | `asus_tuf_ryzen_7_2024` |
+| **Fine**      | Moderate detail; removes year/generation, but keeps variants | `asus_tuf_ryzen_7`      |
+| **Coarse**    | Broad grouping; only family-level                            | `asus_tuf`              |
+
+**Variant IDs** always include configuration: color, RAM, storage, screen size, silicon.
+
+---
+
+## Example Output
+
+**Superfine**
+
+```
+wmt_9969804547,asus_tuf_ryzen_7_2024,asus_tuf_ryzen_7_2024/config:black_8_512/size:15.6/silicon:amd_ryzen7_nvidia_generic,0.9999,"brand_match,model_match,config_extracted,size_extracted,silicon_extracted"
+```
+
+**Fine**
+
+```
+wmt_9969804547,asus_tuf_ryzen_7,asus_tuf_ryzen_7/config:black_8_512/size:15.6/silicon:amd_ryzen7_nvidia_generic,0.9999,"brand_match,model_match,config_extracted,size_extracted,silicon_extracted"
+```
+
+**Coarse**
+
+```
+wmt_9969804547,asus_tuf,asus_tuf/config:black_8_512/size:15.6/silicon:amd_ryzen7_nvidia_generic,0.9999,"brand_match,model_match,config_extracted,size_extracted,silicon_extracted"
+```
+
+---
+
+## Installation
+
+```bash
+git clone <repo-url>
+cd <repo-directory>
+pip install -r requirements.txt
+```
+
+---
+
+## Usage
+
+```bash
+python3 modified_code-submission.py --input ./merged_output.csv --output final_output_fine --coarse_level "fine"
+```
+
+**Arguments:**
+
+* `--input` → Path to input CSV file
+* `--output` → Directory to save output
+* `--coarse_level` → Granularity level: `"coarse"`, `"fine"`, or `"superfine"`
+
+---
+
+## Notes
+
+* **Confidence** is computed for each product assignment.
+* **Evidence** lists which features were used for grouping.
+* Recommended default for general use: `"fine"` level.
+
+---
+
+
+
+
+
 
 This assignment asks you to build a system that transforms unstructured product listings into a structured hierarchy.
 
